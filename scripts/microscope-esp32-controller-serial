@@ -1,0 +1,29 @@
+#!/bin/env python
+from microscope_esp32_controller_serial import serial_interface_qobject
+import sys
+import signal
+from PyQt5 import QtCore
+
+
+
+class QApplication(QtCore.QCoreApplication):
+    def __init__(self, *argv):
+        super().__init__(*argv)
+
+        self.serial = serial_interface_qobject.SerialInterface("/dev/ttyUSB1")
+        self.qt = QtCore.QTimer()
+        self.qt.timeout.connect(self.update)
+        self.qt.start(100)
+
+    def update(self, *args):
+        print("timed out", args)
+        self.serial.write("X2 1\n")
+
+def main():
+
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    app = QApplication(sys.argv)    
+    app.exec()
+
+if __name__ == '__main__':
+    main()
