@@ -54,8 +54,6 @@ class SerialInterface(QtCore.QObject):
         except UnicodeDecodeError:
             print("Failed to decode", message)
             return
-        print("message response:")
-        print(message)
         if message == '':
             return
         self.messageChanged.emit(message)
