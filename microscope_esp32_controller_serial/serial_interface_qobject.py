@@ -63,3 +63,9 @@ class SerialInterface(QtCore.QObject):
         self.serialport.write(bytes(data,"utf-8"))
         self.serialport.flush()
 
+
+    def reset(self):
+        print("reset\r")
+        self.serialport.dtr = False
+        time.sleep(.5)
+        self.serialport.dtr = True
